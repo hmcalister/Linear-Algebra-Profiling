@@ -1,5 +1,5 @@
 use clap::Parser;
-use nalgebra::{SMatrix, SVector};
+use nalgebra::{SMatrix, SVector, Storage};
 use rand::Rng;
 use std::thread;
 
@@ -26,9 +26,8 @@ fn heaviside(v: SMatrix<f64, N, 1>) -> SMatrix<f64, N, 1> {
     v.map(|i| i.signum())
 }
 
-fn thread_func(_thread_number: &usize, num_trials: &usize, steps: &usize) {
+fn thread_func(_thread_number: &usize, matrix: SMatrix<f64, N, N>, num_trials: &usize, steps: &usize) {
     let mut rng = rand::thread_rng();
-    let m = SMatrix::<f64, N, N>::from_iterator((0..N * N).map(|_| rng.gen_range(-1.0..1.0)));
 
     for _trial_index in 0..*num_trials {
         // println!(
@@ -41,19 +40,21 @@ fn thread_func(_thread_number: &usize, num_trials: &usize, steps: &usize) {
         v = heaviside(v);
 
         for _step_index in 0..*steps {
-            v = heaviside(m * v);
+            v = heaviside(matrix * v);
         }
     }
 }
 
 fn main() {
+    let mut rng = rand::thread_rng();
     let args = Args::parse();
     let trials_per_thread = args.trials / args.threads;
     let mut thread_handles = Vec::with_capacity(args.threads);
+    let matrix = SMatrix::<f64, N, N>::from_iterator((0..N * N).map(|_| rng.gen_range(-1.0..1.0)));
 
     for thread_index in 0..args.threads {
         thread_handles.push(thread::spawn(move || {
-            thread_func(&thread_index, &trials_per_thread, &args.multiplications)
+            thread_func(&thread_index, matrix.clone_owned(), &trials_per_thread, &args.multiplications)
         }));
     }
 
