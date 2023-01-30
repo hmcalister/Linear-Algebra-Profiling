@@ -1,5 +1,5 @@
 use clap::Parser;
-use nalgebra::{SMatrix, SVector, Storage};
+use nalgebra::{SMatrix, SVector};
 use rand::Rng;
 use std::thread;
 
@@ -26,7 +26,12 @@ fn heaviside(v: SMatrix<f64, N, 1>) -> SMatrix<f64, N, 1> {
     v.map(|i| i.signum())
 }
 
-fn thread_func(_thread_number: &usize, matrix: SMatrix<f64, N, N>, num_trials: &usize, steps: &usize) {
+fn thread_func(
+    _thread_number: &usize,
+    matrix: &SMatrix<f64, N, N>,
+    num_trials: &usize,
+    steps: &usize,
+) {
     let mut rng = rand::thread_rng();
 
     for _trial_index in 0..*num_trials {
@@ -54,7 +59,12 @@ fn main() {
 
     for thread_index in 0..args.threads {
         thread_handles.push(thread::spawn(move || {
-            thread_func(&thread_index, matrix.clone_owned(), &trials_per_thread, &args.multiplications)
+            thread_func(
+                &thread_index,
+                &matrix,
+                &trials_per_thread,
+                &args.multiplications,
+            )
         }));
     }
 
