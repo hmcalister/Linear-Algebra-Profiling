@@ -5,6 +5,8 @@ This project looks into different implementations of a very simple program. Each
 
 The goal overall is to analyze this data to best select a language for this task - taking into account the time we investigate here as well as factors such as ease of development.
 
+![An example plot from the dashboard developed, showing all implementations colored by threads and batchsizes](images/AllImplementations.png)
+
 ### Structure
 
 #### Dashboard
@@ -18,6 +20,8 @@ python main.py
 ```
 
 Open the URL given by the script in your webbrowser to view the dashboard.
+
+![An example plot from the dashboard developed, showing the best performing implementations](images/BestPerformance.png)
 
 #### Implementations
 The `Implementations` directory holds subdirectories, each of which is a different implementation of the above task. Implementations all accept common command line arguments (for the sake of consistency), which are:
