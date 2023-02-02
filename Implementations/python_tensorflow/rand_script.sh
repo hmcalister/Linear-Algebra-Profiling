@@ -1,8 +1,8 @@
 #!/bin/bash
 
-batchsize_list=(8 32 64 256)
+batchsize_list=(512 1024 2048 4096 8192)
 
-echo "trials,multiplications,batchsize,time"
+# echo "trials,multiplications,batchsize,time"
 for ((RAND_GENS=0;RAND_GENS<$1;RAND_GENS++))
 do
     TRIALS=$[RANDOM%2500+1]
