@@ -13,7 +13,7 @@ best_by_impl = {
     "numpy": df.loc[(df["implementation"]=="numpy") & (df["threads"]==8)],
     "golang": df.loc[(df["implementation"]=="golang") & (df["threads"]==8)],
     "tensorflow_cpu": df.loc[(df["implementation"]=="tensorflow_cpu") & (df["batchsize"]==256)],
-    "tensorflow_gpu": df.loc[(df["implementation"]=="tensorflow_gpu") & (df["batchsize"]==256)],
+    "tensorflow_gpu": df.loc[(df["implementation"]=="tensorflow_gpu") & (df["batchsize"]==2048)],
     "dynamic_rust": df.loc[(df["implementation"]=="dynamic_rust") & (df["threads"]==8)],
     "static_rust": df.loc[(df["implementation"]=="static_rust") & (df["threads"]==8)],
 }
