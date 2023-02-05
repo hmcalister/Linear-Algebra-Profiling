@@ -1,13 +1,13 @@
 #!/bin/bash
 
-batchsize_list=(512 1024 2048 4096 8192)
+batchsize_list=(2048 4096 8192 16384 32768)
 
-# echo "trials,multiplications,batchsize,time"
+echo "trials,multiplications,batchsize,time"
 for ((RAND_GENS=0;RAND_GENS<$1;RAND_GENS++))
 do
-    TRIALS=$[RANDOM%2500+1]
-    MULTIPLICATIONS=$[RANDOM%2500+1]
     BATCHSIZE=${batchsize_list[$RANDOM % ${#batchsize_list[@]}]}
+    TRIALS=$[RANDOM%100000+$BATCHSIZE]
+    MULTIPLICATIONS=$[RANDOM%100000+1]
     >&2 echo -ne "$RAND_GENS => $TRIALS,$MULTIPLICATIONS,$BATCHSIZE                        \r"
     TIME_BEFORE=$(date +%s%N)
     python main.py --trials=$TRIALS --multiplications=$MULTIPLICATIONS --batchsize=$BATCHSIZE
